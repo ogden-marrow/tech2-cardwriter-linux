@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes \
+            python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 \
+            desktop-file-utils man-db curl unzip xz-utils dpkg-dev
+      - name: Run checks
+        run: make check
+      - name: Build Debian package
+        run: make deb
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: tech2-cardwriter-deb
+          path: build/*.deb
+          if-no-files-found: error

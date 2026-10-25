@@ -1,0 +1,8 @@
+tech2-cardwriter (1.0.0-1) unstable; urgency=medium
+
+  * Initial release.
+  * GTK4/libadwaita front-end with serial-port detection and image validation.
+  * Bundled Wine 11.20 amd64-wow64 runtime and Tech2 Card Writer.
+  * Desktop entry, icon, metainfo, man page, Makefile, and Debian package.
+
+ -- John Palenchar <jpalenchar.3@gmail.com>  Sun, 25 Oct 2026 16:00:00 -0400

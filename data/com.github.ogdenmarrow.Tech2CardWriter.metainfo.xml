@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.github.ogdenmarrow.Tech2CardWriter</id>
+  <name>Tech2 Card Writer</name>
+  <summary>Write Saab and GM Tech 2 card images from Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      Tech2 Card Writer is a small Linux front-end for the freeware Windows
+      Tech2 Card Writer by AlexRE. It keeps a private Wine runtime, maps your
+      USB-to-serial adapter to COM1, validates the card image, and opens the
+      writer with a clear checklist.
+    </p>
+    <p>
+      It writes Tech 2 PCMCIA card images only. It does not program ECUs and is
+      not a replacement for TIS2000 or SPS.
+    </p>
+  </description>
+  <launchable type="desktop-id">tech2-cardwriter.desktop</launchable>
+  <url type="homepage">https://github.com/ogden-marrow/tech2-cardwriter-linux</url>
+  <url type="bugtracker">https://github.com/ogden-marrow/tech2-cardwriter-linux/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/ogden-marrow/tech2-cardwriter-linux/main/docs/screenshot.png</image>
+      <caption>The main window with a detected serial port and a validated Saab 148.000 image</caption>
+    </screenshot>
+  </screenshots>
+  <developer_name>Tech2 Card Writer contributors</developer_name>
+  <releases>
+    <release version="1.0.0" date="2026-10-25">
+      <description><p>First release.</p></description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

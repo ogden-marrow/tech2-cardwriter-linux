@@ -1,0 +1,11 @@
+build/
+*.deb
+*.bin
+*.BIN
+*.zip
+__pycache__/
+*.py[cod]
+.venv/
+app/
+wine/
+prefix/

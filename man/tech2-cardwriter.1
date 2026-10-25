@@ -1,0 +1,223 @@
+.TH TECH2-CARDWRITER 1 "2026-10-25" "tech2-cardwriter 1.0.0" "User Commands"
+.SH NAME
+tech2-cardwriter \- write Saab and GM Tech 2 PCMCIA card images from Linux
+.SH SYNOPSIS
+.B tech2-cardwriter
+.\" options
+.RB [ \-\-image
+.IR IMAGE ]
+.RB [ \-\-port
+.IR DEVICE ]
+.RB [ \-\-debug ]
+.RB [ \-\-launch ]
+.RB [ \-\-list-ports ]
+.RB [ \-\-inspect
+.IR IMAGE ]
+.RB [ \-\-version ]
+.RB [ \-h ]
+.RI [ FILE ]
+.SH DESCRIPTION
+.B tech2-cardwriter
+is a GTK4/libadwaita front-end for the freeware Windows program
+.B Tech2 Card Writer
+written by AlexRE in 2011.
+It runs the original
+.B Card_writer.exe
+through a private Wine prefix, using a bundled Wine runtime in packaged builds
+or the system Wine in a source install, so no Windows installation and no
+TIS2000 installation are required.
+.PP
+The application scans the system for serial ports
+.RB ( /dev/ttyUSB* ,
+.BR /dev/ttyACM* ,
+.BR /dev/ttyS* ),
+validates a Tech 2
+.B .bin
+card image (the
+.RB \(lq T2  \(rq
+header and a size of exactly 10\ MB or 32\ MB), exposes the selected port as
+.B COM1
+inside the Wine prefix, and then opens Card Writer.
+.PP
+.B tech2-cardwriter
+only writes the Tech 2 memory card.
+It does not program ECUs, does not talk to the vehicle, and is not a
+replacement for TIS2000 or SPS.
+.PP
+With no options it opens the graphical window.
+A card image may be passed as an optional positional
+.IR FILE
+or with
+.BR \-\-image .
+.SH OPTIONS
+.TP
+.BI \-\-image " IMAGE"
+Pre-select the card image
+.I IMAGE
+in the graphical window.
+.TP
+.BI \-\-port " DEVICE"
+Pre-select the serial device
+.I DEVICE
+(for example
+.IR /dev/ttyUSB0 )
+instead of the first detected port.
+.TP
+.B \-\-launch
+Start Card Writer immediately without opening the main window.
+The port is taken from
+.B \-\-port
+or, if omitted, from the first detected serial port.
+.TP
+.B \-\-list-ports
+List detected serial ports with their access status and exit.
+Prints one line per port and returns a non-zero status if none are found.
+.TP
+.BI \-\-inspect " IMAGE"
+Validate the card image
+.I IMAGE
+and print its size, version, header status, coverage and warnings, then exit.
+Returns a non-zero status if the image is not a valid Tech 2 image.
+.TP
+.B \-\-debug
+Keep Wine diagnostic output and set
+.BR TECH2_DEBUG .
+.TP
+.B \-\-version
+Print the version and exit.
+.TP
+.B \-h, \-\-help
+Print a short help message and exit.
+.SH FILES
+.TP
+.I ~/.local/share/tech2-cardwriter/
+Per-user data directory.
+.TP
+.I ~/.local/share/tech2-cardwriter/prefix/
+The private Wine prefix, created on first launch.
+.TP
+.I ~/.local/share/tech2-cardwriter/images/
+Optional library directory for card images.
+.TP
+.I ~/.local/state/tech2-cardwriter/logs/
+Log files.
+.B wineboot.log
+is written while the prefix is created and
+.B cardwriter-YYYYMMDD-HHMMSS.log
+captures the output of each Card Writer run.
+.TP
+.I ~/.cache/tech2-cardwriter/
+Per-user cache directory.
+.TP
+.I /opt/tech2-cardwriter/
+Installation root for a packaged build; contains
+.BR app/Card_writer.exe ,
+.BR lib/ ,
+.BR share/ ,
+and a bundled
+.B wine/
+runtime.
+.TP
+.I /usr/local/lib/tech2-cardwriter/
+Default installation root for a source install
+.RB ( "make install" ).
+.TP
+.I /usr/local/bin/tech2-cardwriter
+Launcher for a source install.
+.TP
+.I /usr/bin/tech2-cardwriter
+Launcher for the packaged build.
+.SH ENVIRONMENT
+.TP
+.B TECH2_CARDWRITER_ROOT
+Overrides the installation root (the directory containing
+.BR app/ ,
+.BR lib/ ,
+.BR share/ ,
+and
+.BR wine/ ).
+.TP
+.B TECH2_PORT
+Adds an extra serial device to the detected port list, even if it does not
+match the usual device patterns.
+.TP
+.B TECH2_DEBUG
+Keep Wine debugging output when set to a non-empty value.
+.TP
+.B WINEPREFIX
+Set internally to the private prefix before Wine is started; do not rely on
+an external value.
+.TP
+.B XDG_DATA_HOME, XDG_STATE_HOME, XDG_CACHE_HOME
+Override the per-user data, state and cache locations.
+.TP
+.B DISPLAY, WAYLAND_DISPLAY
+The graphical session used to show the window and Card Writer.
+.SH EXAMPLES
+List the serial adapters that are currently plugged in:
+.PP
+.nf
+.RS
+tech2-cardwriter \-\-list-ports
+.RE
+.fi
+.PP
+Check a downloaded card image before writing it:
+.PP
+.nf
+.RS
+tech2-cardwriter \-\-inspect ~/Saab/saab_148.000.bin
+.RE
+.fi
+.PP
+Open the GUI with the usual port and image already selected:
+.PP
+.nf
+.RS
+tech2-cardwriter \-\-port /dev/ttyUSB0 \-\-image ~/Saab/saab_148.000.bin
+.RE
+.fi
+.PP
+Launch Card Writer directly and then choose COM1 and the image inside it:
+.PP
+.nf
+.RS
+tech2-cardwriter \-\-launch \-\-port /dev/ttyUSB0
+.RE
+.fi
+.SH SAFETY
+Use a stable 12\ V DC supply for the Tech 2.
+A 32\ MB card write takes roughly 15 minutes; do not interrupt power, do not
+unplug the serial cable and do not remove the PCMCIA card while Card Writer is
+writing.
+An interrupted write is not fatal, but the card must be written again before
+it can be used.
+.PP
+Do not use CANdi on 2005 and older Saab vehicles; CANdi is only for 9-5 from
+model year 2006 onward.
+Card writing itself uses the Tech 2 RS-232 port and does not require CANdi.
+.PP
+Starting a write overwrites the whole PCMCIA card.
+.SH SEE ALSO
+.BR wine (1),
+.BR setserial (8)
+.PP
+Tech2Wiki:
+.UR https://tech2wiki.com/content/tech2_pcmcia/writing_pcmcia_cards/writing_pcmcia_using_tech2_card_writer.html
+Writing PCMCIA using Card Writer
+.UE
+.br
+.UR https://tech2wiki.com/content/tech2_pcmcia/available_tech2_.bin-files/tech2_saab.html
+Available Tech 2 .bin files \- SAAB
+.UE
+.PP
+Project page:
+.UR https://github.com/ogden-marrow/tech2-cardwriter-linux
+tech2-cardwriter-linux
+.UE
+.SH COPYRIGHT
+Card Writer is copyright \(co 2011 AlexRE.
+The Linux front-end is distributed under the MIT license.
+Tech 2 card images are copyright Saab/GM and are not included.
+.SH AUTHOR
+Tech2 Card Writer contributors.

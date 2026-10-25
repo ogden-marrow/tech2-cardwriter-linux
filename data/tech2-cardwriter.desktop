@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Tech2 Card Writer
+GenericName=Tech 2 Card Writer
+Comment=Write Saab and GM Tech 2 PCMCIA card images
+Exec=tech2-cardwriter %f
+Icon=tech2-cardwriter
+Terminal=false
+Categories=Utility;
+Keywords=Saab;Tech2;OBD;card;PCMCIA;diagnostics;
+StartupNotify=true
