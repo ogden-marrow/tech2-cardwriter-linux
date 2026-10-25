@@ -40,6 +40,8 @@ The usual chain is:
 Tech 2 (RJ45) ── RJ45/DB9 adapter or cable ── USB-to-RS232 adapter ── Linux PC
 ```
 
+> The RJ45 port is **RS-232, not Ethernet**. Never plug it into a LAN switch.
+
 - Use the serial adapter/cable supplied with the Tech 2 kit. It is wired for
   the Tech 2's RJ45 pinout. The official parts are the **P/N 3000110**
   RJ45-to-RJ45 cable and the **P/N 3000111** RJ45-to-DB9 adapter.
@@ -53,6 +55,15 @@ Tech 2 (RJ45) ── RJ45/DB9 adapter or cable ── USB-to-RS232 adapter ─�
   is correct.
 - The **RJ45 loopback plug** on Tech2Wiki is a self-test tool for the Tech 2's
   serial port, not a PC connection cable.
+
+**Off-the-shelf USB-to-RJ45 RS-232 adapters** do exist — for example the ATEN
+UC232B/UC232BF, StarTech ICUSB2322RJ, ZPE USB-RJ45-4SRL, and custom cables.
+They are not plug-and-play for the Tech 2: the RJ45 pinout is vendor-specific.
+The ATEN UC232B is wired for Cisco console use; the StarTech ICUSB2322RJ uses
+an industrial pinout. Either needs a short crossover cable mapping
+RxD/TxD/GND to the Tech 2's pins. The official P/N 3000111 is the known-good
+pinout. A custom USB-RS232-to-RJ45 cable is the cleanest single-cable option.
+
 
 If you want to eliminate the external serial adapter entirely, Tech2Wiki
 documents an internal **USB-UART modification**: remove the MAX202/MAX232
