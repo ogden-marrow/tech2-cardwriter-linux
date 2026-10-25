@@ -33,22 +33,37 @@ rewritten.
 
 ### RS-232 connection
 
-The Tech 2 side uses its **RS-232 port** (the DB9 connector on the Tech 2).
-On the Linux side you need a serial port:
+The Tech 2's RS-232 port is the **RJ45 socket on the left side** — not a DB9.
+The usual chain is:
 
-- **USB-to-serial adapter (recommended)** — FTDI-based adapters are the most
-  reliable; CH340/CP210x generally work. Avoid adapters that only expose a
-  fake/limited UART.
-- **Built-in serial port** — if your machine still has one, it appears as
-  `/dev/ttyS*`.
+```text
+Tech 2 (RJ45) ── RJ45/DB9 adapter or cable ── USB-to-RS232 adapter ── Linux PC
+```
 
-Use the serial cable specified for the Tech 2's RS-232 port — normally the
-cable supplied with the Tech 2 kit. Generic straight-through and null-modem
-cables are not interchangeable; if you are making your own, verify the pinout
-on Tech2Wiki before connecting it. See Tech2Wiki's
-[USB-to-serial compatibility list](https://tech2wiki.com/content/tech2/tech2_using/connecting_to_techline/usb-to-serial/usb2serial_working.html)
-and
-[power supplies and cables](https://tech2wiki.com/content/tech2/tech2_kit/tech2_power_supplies_and_cables.html).
+- Use the serial adapter/cable supplied with the Tech 2 kit. It is wired for
+  the Tech 2's RJ45 pinout. The official parts are the **P/N 3000110**
+  RJ45-to-RJ45 cable and the **P/N 3000111** RJ45-to-DB9 adapter.
+- On the Linux side, use a USB-to-RS232 adapter. The Tripp Lite USA-19HS is
+  the GM/Bosch-recommended one; genuine FTDI adapters are the next best.
+- If you make your own cable, follow the **DB9↔RJ45 pinout** on Tech2Wiki.
+  Generic straight-through and null-modem cables are not interchangeable.
+- A "USB to RJ45" console cable only works if it is a true RS-232 adapter and
+  is wired for the Tech 2 pinout. Most are Cisco rollover cables and will
+  not work. A USB-to-RS232 adapter with an RJ45 output can work if its pinout
+  is correct.
+- The **RJ45 loopback plug** on Tech2Wiki is a self-test tool for the Tech 2's
+  serial port, not a PC connection cable.
+
+If you want to eliminate the external serial adapter entirely, Tech2Wiki
+documents an internal **USB-UART modification**: remove the MAX202/MAX232
+transceiver and solder an FTDI USB-UART module to the UART. It is cheap and
+works at 115200, but it is invasive; try the adapter chain first.
+
+See the [GM Tech 2 User Guide](https://tech2wiki.com/content/media_archive/pdf/gm_tech2_user_guide.pdf)
+and Tech2Wiki's
+[Connecting to Techline](https://tech2wiki.com/content/tech2/tech2_using/connecting_to_techline/),
+[USB-to-serial compatibility list](https://tech2wiki.com/content/tech2/tech2_using/connecting_to_techline/usb-to-serial/usb2serial_working.html),
+and [USB modification](https://tech2wiki.com/content/tech2/tech2_modifications/usb_modification/).
 
 ### CANdi (conditionally)
 
@@ -67,17 +82,11 @@ separate.
 
 ## How the pieces connect
 
-```
-Linux PC                 Tech 2                     Car (diagnostics only)
-┌──────────┐  USB   ┌──────────────┐
-│ USB port ├────────┤ USB-to-serial│
-│          │        │ adapter      │
-│          │  DB9   │              │
-│          ├────────┤ RS-232 port  │
-└──────────┘        │              │
-                    │ PCMCIA slot  │◄── card image is written here
-                    │ 12 V DC in   │
-                    └──────────────┘
+```text
+Linux PC ──USB── USB-to-RS232 ──DB9── DB9↔RJ45 ──RJ45── Tech 2
+                                                        ├── PCMCIA card (written here)
+                                                        ├── 12 V DC in
+                                                        └── car diagnostics (separate)
 ```
 
 During a card write the car is **not connected**. Card writing happens on the

@@ -73,10 +73,10 @@ and a safety checklist before anything is written.
 
 | Item | Needed |
 |---|---|
-| Tech 2 | Genuine or clone unit with RS-232 port and PCMCIA slot |
+| Tech 2 | Genuine or clone unit with an **RJ45 RS-232** port and PCMCIA slot |
 | PCMCIA card | **Linear flash**, 10 MB for v44.000 or 32 MB for v135–v148 |
 | Power | Stable **12 V DC** supply for the Tech 2 |
-| Serial link | USB-to-serial adapter (recommended) or built-in serial port |
+| Serial link | USB-to-RS232 adapter **plus** the Tech 2's DB9↔RJ45 adapter/cable |
 | CANdi | **Only for 9-5 model year 2006 and newer** |
 
 See **[docs/HARDWARE.md](docs/HARDWARE.md)** for the full bench setup, serial
@@ -145,8 +145,8 @@ make check      # run the test suite, desktop-file and man-page checks
 ## Usage
 
 1. **Set up the bench.** Connect the Tech 2 to its **12 V** adapter, insert the
-   PCMCIA card, and connect the Tech 2 RS-232 port to your USB-to-serial
-   adapter. Leave the car out of it.
+   PCMCIA card, and connect the Tech 2's **RJ45 RS-232** port to your
+   USB-to-RS232 adapter using the DB9↔RJ45 adapter/cable. Leave the car out of it.
 2. **Start the app.** Run `tech2-cardwriter` or open *Tech2 Card Writer* from
    your application menu.
 3. **Pick the serial port.** The app lists USB/ACM/serial devices. If your
@@ -210,6 +210,16 @@ Not all adapters are equal. The two safe choices:
    If you are buying one adapter, buy this.
 2. **Genuine FTDI FT232R** — for example the US232R-100. Excellent Linux
    support and a reliable fallback.
+
+> **The Tech 2's serial port is RJ45, not DB9.** The USA-19HS and most
+> USB-to-serial adapters have a DB9 connector, so you also need the
+> **DB9↔RJ45 adapter/cable** supplied with the Tech 2 kit — GM **P/N 3000110**
+> (RJ45-to-RJ45 cable) and **P/N 3000111** (RJ45-to-DB9 adapter) — or a cable
+> wired to the [Tech2Wiki pinout](https://tech2wiki.com/content/tech2/tech2_using/connecting_to_techline/).
+> A generic "USB to RJ45" console cable is usually a Cisco rollover cable and
+> will not work without rewiring. A true USB-to-RS232 adapter with an RJ45
+> output can work if it is wired for the Tech 2 pinout. The RJ45 port is
+> **RS-232, not Ethernet** — never plug it into a LAN switch.
 
 **PL-2303 and CH340** adapters generally work, but the market is full of
 counterfeits and marginal clones. If a write fails repeatedly or Card Writer
