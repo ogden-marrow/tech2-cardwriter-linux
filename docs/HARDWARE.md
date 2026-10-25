@@ -64,6 +64,22 @@ an industrial pinout. Either needs a short crossover cable mapping
 RxD/TxD/GND to the Tech 2's pins. The official P/N 3000111 is the known-good
 pinout. A custom USB-RS232-to-RJ45 cable is the cleanest single-cable option.
 
+A **Cisco-style FTDI USB-to-RJ45 console cable** — pinout 1 CTS, 2 DSR, 3 RxD,
+4 GND, 5 GND, 6 TxD, 7 DTR, 8 RTS — is the same electrical idea. It will
+**not** work plugged straight into the Tech 2. Use a 3-wire crossover:
+
+```text
+Cable 6 (TxD)  → Tech 2 4 (RxD)
+Cable 3 (RxD)  ← Tech 2 5 (TxD)
+Cable 4/5 (GND) ↔ Tech 2 7 (GND)
+```
+
+Leave cable pins 1, 2, 7 and 8 unconnected; the Tech 2 uses no flow control.
+Because the cable ends in a male RJ45 and the Tech 2 has a female socket, you
+need a crossover coupler/cable or a re-crimped RJ45 plug. The cable's “no
+adapters needed” claim is for Cisco routers, not the Tech 2. The FTDI chip is
+fine; the default pinout is the problem.
+
 
 If you want to eliminate the external serial adapter entirely, Tech2Wiki
 documents an internal **USB-UART modification**: remove the MAX202/MAX232
