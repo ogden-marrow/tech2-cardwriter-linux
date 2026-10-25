@@ -73,8 +73,13 @@ class MainWindow(Adw.ApplicationWindow):
         self.ports = []
         self.busy = False
         self._build_ui()
+        initial_extra = []
+        if initial_image:
+            candidate = Path(initial_image).expanduser()
+            if candidate.is_file():
+                initial_extra.append(candidate)
         self.refresh_ports(select=initial_port)
-        self.refresh_images(select=initial_image)
+        self.refresh_images(select=initial_image, extra=initial_extra)
         self._update_ready()
         GLib.idle_add(self._scroll_to_top)
 

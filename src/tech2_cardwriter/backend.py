@@ -257,6 +257,10 @@ def inspect_image(path: str | os.PathLike[str], car: str = "9-5") -> CardImage:
         )
     if version == 44 and car == "9-5":
         info.warnings.append("v44.000 is for the 900/9000, not the 9-5.")
+    if version is None:
+        info.warnings.append("Could not read a version from the filename; verify this is the right image.")
+    elif version not in CARD_VERSIONS:
+        info.warnings.append("Unknown Saab version; verify this image matches your car.")
     if version == 143:
         info.warnings.append("v143.000 is English-only.")
     if version is not None and version >= 144:
